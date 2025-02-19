@@ -17,10 +17,10 @@ public class TestEmptySpace {
     /** Note that this isn't a possible board state. */
     public void testCompletelyEmpty() {
         int[][] rawVals = new int[][] {
-                {0, 0, 0, 0},
-                {0, 0, 0, 0},
-                {0, 0, 0, 0},
-                {0, 0, 0, 0},
+                {0, 2, 3, 4},
+                {5, 6, 7, 8},
+                {9, 10, 11, 12},
+                {13, 14, 15, 16},
         };
 
         b = new Board(rawVals, 0);
