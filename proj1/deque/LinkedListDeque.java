@@ -1,12 +1,12 @@
 package deque;
 
-public class LinkedListDeque<any> {
+public class LinkedListDeque<T> {
     private int size;
     private Tnode sentinel;
     public class Tnode{
         public Tnode prev, next;
-        public any item;
-        public Tnode(any i, Tnode p, Tnode n){
+        public T item;
+        public Tnode(T i, Tnode p, Tnode n){
             item=i;
             prev=p;
             next=n;
@@ -28,21 +28,21 @@ public class LinkedListDeque<any> {
         sentinel=t;
         size=0;
         for (int i=0; i<other.size(); i++) {
-            this.addLast((any) other.get(i));
+            this.addLast((T) other.get(i));
         }
     }
 
-    public any getRecursive (int i){
+    public T getRecursive (int i){
         if (this.isEmpty()) return null;
         if (i==0) return sentinel.next.item;
         else{
             LinkedListDeque temp= new LinkedListDeque(this);
             temp.removeFirst();
-            return (any) temp.getRecursive(i-1);
+            return (T) temp.getRecursive(i-1);
         }
     }
 
-    public any get (int index){
+    public T get (int index){
         if (this.isEmpty()) return null;
         Tnode p = sentinel;
         while (index>=0){
@@ -52,7 +52,7 @@ public class LinkedListDeque<any> {
         return p.item;
     }
 
-    public void addFirst (any x){
+    public void addFirst (T x){
         size++;
         Tnode p =sentinel;
         Tnode temp = new Tnode(x, p, p.next);
@@ -60,7 +60,7 @@ public class LinkedListDeque<any> {
         p.next =temp;
     }
 
-    public void addLast (any x){
+    public void addLast (T x){
         size++;
         Tnode p =sentinel.prev, s=sentinel;
         Tnode temp = new Tnode(x, p, s);
@@ -87,7 +87,7 @@ public class LinkedListDeque<any> {
         }
     }
 
-    public any removeFirst(){
+    public T removeFirst(){
         if (this.isEmpty()) return null;
         Tnode s=sentinel;
         Tnode first=s.next;
@@ -97,13 +97,13 @@ public class LinkedListDeque<any> {
         return first.item;
     }
 
-    public any removeLast(){
+    public T removeLast(){
         if (this.isEmpty()) return null;
         Tnode l=sentinel.prev;
         Tnode s=sentinel;
         l.prev.next=s;
         s.prev=l.prev;
-        any ans = l.item;
+        T ans = l.item;
         l=l.prev;
         size--;
         return ans;

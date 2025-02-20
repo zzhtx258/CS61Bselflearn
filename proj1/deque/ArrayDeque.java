@@ -1,37 +1,37 @@
 package deque;
 
-public class ArrayDeque <any> {
+public class ArrayDeque <T> {
     private int size, length, start, end, Rfactor;
-    private any[] items;
+    private T[] items;
 
     public ArrayDeque(){
         Rfactor=2;
         length=8;
-        items= (any[]) new Object[length];
+        items= (T[]) new Object[length];
         size=0;
         start=0;
         end=0;
     }
 
     public ArrayDeque(ArrayDeque other){
-        items= (any[]) new Object[other.length];
+        items= (T[]) new Object[other.length];
         size=other.size();
         start=other.start;
         end=other.end;
         Rfactor=other.Rfactor;
         for (int i=0; i<size; i++){
-            items[i]= (any) other.items[i];
+            items[i]= (T) other.items[i];
         }
     }
 
-    public any get(int index){
+    public T get(int index){
         return items[(index+start)%length];
     }
 
     public void resize(){
-        any[] newitems;
-        if (size==length) newitems = (any[]) new Object[length*Rfactor];
-        else newitems = (any[]) new Object[length/2];
+        T[] newitems;
+        if (size==length) newitems = (T[]) new Object[length*Rfactor];
+        else newitems = (T[]) new Object[length/2];
         if (start<end){
             for (int i=start; i<=end; i++){
                 newitems[i-start]=items[i];
@@ -52,31 +52,31 @@ public class ArrayDeque <any> {
         newitems=null;
     }
 
-    public void addLast(any x){
+    public void addLast(T x){
         if (size==length) resize();
         if (!this.isEmpty()) end=(end+1)%length;
         items[end]=x;
         size++;
     }
 
-    public void addFirst(any x){
+    public void addFirst(T x){
         if (size==length) resize();
-        if (!this.isEmpty()) start=(start-1)%length;
+        if (!this.isEmpty()) start=(start-1+length)%length;
         items[start]=x;
         size++;
     }
 
-    public any removeLast(){
+    public T removeLast(){
         if (size==0) return null;
-        any ans=items[end];
-        end=(end-1)%length;
+        T ans=items[end];
+        end=(end-1+length)%length;
         size--;
         return ans;
     }
 
-    public any removeFirst(){
+    public T removeFirst(){
         if (size==0) return null;
-        any ans=items[start];
+        T ans=items[start];
         start=(start+1)%length;
         size--;
         return ans;
