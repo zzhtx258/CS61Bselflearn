@@ -71,9 +71,6 @@ public class ArrayDeque <any> {
         any ans=items[end];
         end=(end-1)%length;
         size--;
-        if (((double) size/ (double)length)<0.25 && length>8) {
-            resize();
-        }
         return ans;
     }
 
@@ -82,9 +79,6 @@ public class ArrayDeque <any> {
         any ans=items[start];
         start=(start+1)%length;
         size--;
-        if (((double) size/ (double)length)<0.25 && length>8) {
-            resize();
-        }
         return ans;
     }
 
