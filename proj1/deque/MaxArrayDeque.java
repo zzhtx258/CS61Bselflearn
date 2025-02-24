@@ -27,16 +27,35 @@ public class MaxArrayDeque <T> extends ArrayDeque <T>{
         super.addLast(x);
     }
 
+    public T getmax(){
+        Iterator<T> it = this.iterator();
+        T curmax = it.next();
+        while (it.hasNext()){
+            T now= it.next();
+            if (cmp.compare(now, curmax)>0){
+                curmax=now;
+            }
+        }
+        it=null;
+        return curmax;
+    }
+
     @Override
     public T removeLast(){
-        maxItem=this.max();
-        return super.removeLast();
+        T data = super.removeLast();
+        if (data!=null && cmp.compare(data, maxItem)>0){
+            maxItem=this.getmax();
+        }
+        return data;
     }
 
     @Override
     public T removeFirst(){
-        maxItem=this.max();
-        return super.removeFirst();
+        T data = super.removeFirst();
+        if (data!=null && cmp.compare(data, maxItem)>0){
+            maxItem=this.getmax();
+        }
+        return data;
     }
 
     public T max(){

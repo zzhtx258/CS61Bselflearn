@@ -37,8 +37,12 @@ public class LinkedListDequeTest {
         lld2.addLast("middle");
 		lld1.addLast("back");
 		assertEquals(3, lld1.size());
+        assertFalse(lld1.equals(lld2));
         lld2.addLast("back");
         assertTrue(lld1.equals(lld2));
+        assertTrue(lld2.equals(lld1));
+        assertTrue(lld1.equals(lld1));
+        assertTrue(lld2.equals(lld2));
 		System.out.println("Printing out deque: ");
 		lld1.printDeque();
 

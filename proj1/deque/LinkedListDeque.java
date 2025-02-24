@@ -135,11 +135,7 @@ public class LinkedListDeque<T> implements Deque <T> {
             current = current.next; // Move to the next node
             return data;
         }
-
-        @Override
-        public void remove() {
-            throw new UnsupportedOperationException("Remove not supported");
-        }
+        
     }
 
 }

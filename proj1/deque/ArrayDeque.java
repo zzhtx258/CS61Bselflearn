@@ -157,11 +157,6 @@ public class ArrayDeque <T> implements Deque <T> {
             elementsReturned++;
             return element;
         }
-
-        @Override
-        public void remove() {
-            throw new UnsupportedOperationException("Remove not supported");
-        }
     }
 
 }
