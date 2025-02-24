@@ -1,6 +1,6 @@
 package deque;
 
-public class LinkedListDeque<T> {
+public class LinkedListDeque<T> implements Deque <T> {
     private int size;
     private Tnode sentinel;
     public class Tnode{
@@ -42,6 +42,7 @@ public class LinkedListDeque<T> {
         }
     }
 
+    @Override
     public T get (int index){
         if (this.isEmpty()) return null;
         Tnode p = sentinel;
@@ -52,6 +53,7 @@ public class LinkedListDeque<T> {
         return p.item;
     }
 
+    @Override
     public void addFirst (T x){
         size++;
         Tnode p =sentinel;
@@ -60,6 +62,7 @@ public class LinkedListDeque<T> {
         p.next =temp;
     }
 
+    @Override
     public void addLast (T x){
         size++;
         Tnode p =sentinel.prev, s=sentinel;
@@ -69,14 +72,12 @@ public class LinkedListDeque<T> {
         s.prev=p;
     }
 
-    public boolean isEmpty (){
-        return size==0;
-    }
-
+    @Override
     public int size(){
         return size;
     }
 
+    @Override
     public void printDeque(){
         if (this.isEmpty()) return;
         Tnode s=sentinel.next;
@@ -87,6 +88,7 @@ public class LinkedListDeque<T> {
         }
     }
 
+    @Override
     public T removeFirst(){
         if (this.isEmpty()) return null;
         Tnode s=sentinel;
@@ -97,6 +99,7 @@ public class LinkedListDeque<T> {
         return first.item;
     }
 
+    @Override
     public T removeLast(){
         if (this.isEmpty()) return null;
         Tnode l=sentinel.prev;
