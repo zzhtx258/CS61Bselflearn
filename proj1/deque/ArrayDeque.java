@@ -33,8 +33,14 @@ public class ArrayDeque <T> implements Deque <T> {
 
     public void resize(){
         T[] newitems;
-        if (size==length) newitems = (T[]) new Object[length*Rfactor];
-        else newitems = (T[]) new Object[length/2];
+        boolean f=true;
+        if (size==length) {
+            newitems = (T[]) new Object[length*Rfactor];
+        }
+        else {
+            newitems = (T[]) new Object[length/2];
+            f=false;
+        }
         if (start<end){
             for (int i=start; i<=end; i++){
                 newitems[i-start]=items[i];
@@ -48,7 +54,12 @@ public class ArrayDeque <T> implements Deque <T> {
                 newitems[length-start+i]=items[i];
             }
         }
-        length=length*Rfactor;
+        if (f){
+            length=length*Rfactor;
+        }
+        else{
+            length/=2;
+        }
         start=0;
         end=size-1;
         items=newitems;
@@ -77,6 +88,8 @@ public class ArrayDeque <T> implements Deque <T> {
         T ans=items[end];
         end=(end-1+length)%length;
         size--;
+        if (size==0) end=start;
+        if ((double)size/(double)length<0.25 && size>4) resize();
         return ans;
     }
 
@@ -86,6 +99,8 @@ public class ArrayDeque <T> implements Deque <T> {
         T ans=items[start];
         start=(start+1)%length;
         size--;
+        if (size==0) start=end;
+        if ((double)size/(double)length<0.25 && size>4) resize();
         return ans;
     }
 

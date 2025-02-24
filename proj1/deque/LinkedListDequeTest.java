@@ -1,6 +1,9 @@
 package deque;
 
 import org.junit.Test;
+
+import java.util.Comparator;
+
 import static org.junit.Assert.*;
 
 
@@ -14,12 +17,16 @@ public class LinkedListDequeTest {
      * && is the "and" operation. */
     public void addIsEmptySizeTest() {
 
-
+        Comparator<String> strc = (s1, s2) -> {
+            if (s1.length()>s2.length()) return 1;
+            else if (s1.length()==s2.length()) return 0;
+            else return -1;
+        };
         LinkedListDeque<String> lld1 = new LinkedListDeque<String>();
-
+        MaxArrayDeque<String> lld2 = new MaxArrayDeque<String>(strc);
 		assertTrue("A newly initialized LLDeque should be empty", lld1.isEmpty());
 		lld1.addFirst("front");
-
+        lld2.addFirst("front");
 		// The && operator is the same as "and" in Python.
 		// It's a binary operator that returns true if both arguments true, and false otherwise.
         assertEquals(1, lld1.size());
@@ -27,10 +34,11 @@ public class LinkedListDequeTest {
 
 		lld1.addLast("middle");
 		assertEquals(2, lld1.size());
-
+        lld2.addLast("middle");
 		lld1.addLast("back");
 		assertEquals(3, lld1.size());
-
+        lld2.addLast("back");
+        assertTrue(lld1.equals(lld2));
 		System.out.println("Printing out deque: ");
 		lld1.printDeque();
 

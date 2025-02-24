@@ -1,6 +1,7 @@
 package deque;
 
 import java.util.Comparator;
+import java.util.Iterator;
 
 public class MaxArrayDeque <T> extends ArrayDeque <T>{
     private T maxItem;
@@ -49,6 +50,11 @@ public class MaxArrayDeque <T> extends ArrayDeque <T>{
             if (cmp.compare(newmax,get(i))<0) newmax=get(i);
         }
         return newmax;
+    }
+
+    @Override
+    public Iterator<T> iterator(){
+        return super.iterator();
     }
 
 }
