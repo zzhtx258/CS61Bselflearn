@@ -1,5 +1,7 @@
 package deque;
 
+import java.util.Iterator;
+
 public class LinkedListDeque<T> implements Deque <T> {
     private int size;
     private Tnode sentinel;
@@ -112,5 +114,32 @@ public class LinkedListDeque<T> implements Deque <T> {
         return ans;
     }
 
+    public Iterator<T> iterator() {
+        return new LinkedListDequeIterator();
+    }
+
+    private class LinkedListDequeIterator implements Iterator<T> {
+        private Tnode current = sentinel.next; // Start from the head
+
+        @Override
+        public boolean hasNext() {
+            return current.next != sentinel;
+        }
+
+        @Override
+        public T next() {
+            if (!hasNext()) {
+                return null;
+            }
+            T data = current.item;
+            current = current.next; // Move to the next node
+            return data;
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("Remove not supported");
+        }
+    }
 
 }

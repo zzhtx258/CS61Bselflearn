@@ -1,5 +1,7 @@
 package deque;
 
+import java.util.Iterator;
+
 public class ArrayDeque <T> implements Deque <T> {
     private int size, length, start, end, Rfactor;
     private T[] items;
@@ -115,6 +117,36 @@ public class ArrayDeque <T> implements Deque <T> {
             }
         }
         System.out.println(items[end]);
+    }
+
+    public Iterator<T> iterator() {
+        return new ArrayDequeIterator();
+    }
+
+    private class ArrayDequeIterator implements Iterator<T> {
+        private int index = 0; // Start from the front
+        private int elementsReturned = 0; // Count of elements returned
+
+        @Override
+        public boolean hasNext() {
+            return elementsReturned < size;
+        }
+
+        @Override
+        public T next() {
+            if (!hasNext()) {
+                return null;
+            }
+            T element = (T) items[(start + index) % length];
+            index++;
+            elementsReturned++;
+            return element;
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("Remove not supported");
+        }
     }
 
 }
