@@ -26,6 +26,18 @@ public class MaxArrayDeque <T> extends ArrayDeque <T>{
         super.addLast(x);
     }
 
+    @Override
+    public T removeLast(){
+        maxItem=this.max();
+        return super.removeLast();
+    }
+
+    @Override
+    public T removeFirst(){
+        maxItem=this.max();
+        return super.removeFirst();
+    }
+
     public T max(){
         return maxItem;
     }

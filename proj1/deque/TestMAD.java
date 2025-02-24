@@ -65,6 +65,19 @@ public class TestMAD {
 
 
         MaxArrayDeque<Integer> lld1 = new MaxArrayDeque<>(intc);
+
+        lld1.addFirst(0);
+        lld1.addFirst(1);
+        lld1.addFirst(2);
+        lld1.removeLast();
+        lld1.removeLast();
+        lld1.removeLast();
+        lld1.isEmpty();
+        lld1.isEmpty();
+        lld1.addFirst(8);
+        int last= lld1.removeLast();
+        assertEquals(8,last);
+
         lld1.addFirst(3);
 
         lld1.removeLast();
