@@ -46,7 +46,7 @@ public class ArrayDeque <T> implements Deque <T>, Iterable<T> {
         return items[(index+start)%length];
     }
 
-    public void resize(){
+    private void resize(){
         T[] newitems;
         boolean f=true;
         if (size==length) {

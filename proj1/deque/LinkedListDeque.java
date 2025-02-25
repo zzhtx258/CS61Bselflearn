@@ -5,7 +5,7 @@ import java.util.Iterator;
 public class LinkedListDeque<T> implements Deque <T>, Iterable<T> {
     private int size;
     private Tnode sentinel;
-    public class Tnode{
+    private class Tnode{
         public Tnode prev, next;
         public T item;
         public Tnode(T i, Tnode p, Tnode n){
