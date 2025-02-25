@@ -15,6 +15,7 @@ public interface Deque <T>{
     public T removeLast();
     public T get(int index);
     public Iterator<T> iterator();
+    /*
     default public boolean equals (Deque<T> o) {
         if (this==o) return true;
         boolean f=true;
@@ -32,4 +33,6 @@ public interface Deque <T>{
         }
         return f;
     }
+    */
+    public boolean equals(Object o);
 }

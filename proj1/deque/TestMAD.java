@@ -75,21 +75,21 @@ public class TestMAD {
     public void removeEmptyTest() {
 
 
-        MaxArrayDeque<Integer> lld1 = new MaxArrayDeque<>(intc);
-        LinkedListDeque<Integer> lld2 = new LinkedListDeque<>();
+        MaxArrayDeque<String> lld1 = new MaxArrayDeque<>(strc);
+        LinkedListDeque<String> lld2 = new LinkedListDeque<>();
 
         int N=50;
         for (int i=0; i<N; i++){
             int op=StdRandom.uniform(0,6);
-            int num=StdRandom.uniform(-10,10);
+            //int num=StdRandom.uniform(-10,10);
             switch (op){
                 case 0,4:
-                    lld1.addFirst(num);
-                    lld2.addFirst(num);
+                    lld1.addFirst("str0");
+                    lld2.addFirst("str0");
                     break;
                 case 1,5:
-                    lld1.addLast(num);
-                    lld2.addLast(num);
+                    lld1.addLast("str1");
+                    lld2.addLast("str1");
                     break;
                 case 2:
                     lld1.removeFirst();
@@ -103,7 +103,7 @@ public class TestMAD {
             assertTrue(lld1.equals(lld2));
         }
         int size= lld2.size();
-        Iterator<Integer> it = lld2.iterator();
+        Iterator<String> it = lld2.iterator();
         for (int i=0; i<size; i++){
             assertTrue(it.hasNext());
             it.next();
