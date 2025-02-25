@@ -16,6 +16,7 @@ public interface Deque <T>{
     public T get(int index);
     public Iterator<T> iterator();
     default public boolean equals (Deque<T> o) {
+        if (this==o) return true;
         boolean f=true;
         if (this.size()!=o.size()) {
             return false;
@@ -23,7 +24,9 @@ public interface Deque <T>{
         Iterator<T> l1=this.iterator();
         Iterator<T> l2=o.iterator();
         while (l1.hasNext() && l2.hasNext()){
-            if (!l1.next().equals(l2.next())){
+            T i1=l1.next();
+            T i2=l2.next();
+            if (!i1.equals(i2)){
                 return false;
             }
         }

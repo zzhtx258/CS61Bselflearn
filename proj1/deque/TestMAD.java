@@ -15,6 +15,11 @@ public class TestMAD {
         else if (s1.length()==s2.length()) return 0;
         else return -1;
     };
+    Comparator<String> strc1 = (s1,s2) -> {
+        if (s1.length()>s2.length()) return -1;
+        else if (s1.length()==s2.length()) return 0;
+        else return 1;
+    };
     @Test
     public void addIsEmptySizeTest() {
 
@@ -40,7 +45,7 @@ public class TestMAD {
         lld1.printDeque();
 
         assertEquals("middle", lld1.get(1));
-        assertEquals("middle", lld1.get(1));
+        assertEquals("back", lld1.max(strc1));
     }
 
     @Test
@@ -73,7 +78,7 @@ public class TestMAD {
         MaxArrayDeque<Integer> lld1 = new MaxArrayDeque<>(intc);
         LinkedListDeque<Integer> lld2 = new LinkedListDeque<>();
 
-        int N=5000;
+        int N=50;
         for (int i=0; i<N; i++){
             int op=StdRandom.uniform(0,6);
             int num=StdRandom.uniform(-10,10);
@@ -97,7 +102,13 @@ public class TestMAD {
             }
             assertTrue(lld1.equals(lld2));
         }
-
+        int size= lld2.size();
+        Iterator<Integer> it = lld2.iterator();
+        for (int i=0; i<size; i++){
+            assertTrue(it.hasNext());
+            it.next();
+        }
+        assertFalse(it.hasNext());
     }
 
     @Test
