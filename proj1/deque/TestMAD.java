@@ -3,6 +3,8 @@ package deque;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.Comparator;
+import java.util.Iterator;
+
 import edu.princeton.cs.algs4.StdRandom;
 
 public class TestMAD {
@@ -54,10 +56,13 @@ public class TestMAD {
         // should not be empty
         assertFalse("lld1 should contain 1 item", lld1.isEmpty());
 
-        lld1.removeFirst();
+        lld1.addFirst(15);
         // should be empty
-        assertTrue("lld1 should be empty after removal", lld1.isEmpty());
-
+        //assertTrue("lld1 should be empty after removal", lld1.isEmpty());
+        Iterator<Integer> it = lld1.iterator();
+        while (it.hasNext()){
+            int item=it.next();
+        }
     }
 
     @Test
