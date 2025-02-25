@@ -23,10 +23,7 @@ public interface Deque <T>{
         Iterator<T> l1=this.iterator();
         Iterator<T> l2=o.iterator();
         while (l1.hasNext() && l2.hasNext()){
-            if (l1 instanceof Deque || l2 instanceof Deque){
-                f = l1.next().equals(l2.next());
-                if (!f) return false;
-            } else if (l1.next().equals(l2.next())){
+            if (!l1.next().equals(l2.next())){
                 return false;
             }
         }

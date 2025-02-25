@@ -3,6 +3,7 @@ package deque;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.Comparator;
+import edu.princeton.cs.algs4.StdRandom;
 
 public class TestMAD {
     Comparator<Integer> intc = (i1,i2) -> i1-i2;
@@ -65,32 +66,33 @@ public class TestMAD {
 
 
         MaxArrayDeque<Integer> lld1 = new MaxArrayDeque<>(intc);
+        LinkedListDeque<Integer> lld2 = new LinkedListDeque<>();
 
-        lld1.addFirst(0);
-        lld1.addFirst(1);
-        lld1.addFirst(2);
-        lld1.removeLast();
-        lld1.removeLast();
-        lld1.removeLast();
-        lld1.isEmpty();
-        lld1.isEmpty();
-        lld1.addFirst(8);
-        int last= lld1.removeLast();
-        assertEquals(8,last);
+        int N=5000;
+        for (int i=0; i<N; i++){
+            int op=StdRandom.uniform(0,6);
+            int num=StdRandom.uniform(-10,10);
+            switch (op){
+                case 0,4:
+                    lld1.addFirst(num);
+                    lld2.addFirst(num);
+                    break;
+                case 1,5:
+                    lld1.addLast(num);
+                    lld2.addLast(num);
+                    break;
+                case 2:
+                    lld1.removeFirst();
+                    lld2.removeFirst();
+                    break;
+                case 3:
+                    lld1.removeLast();
+                    lld2.removeLast();
+                    break;
+            }
+            assertTrue(lld1.equals(lld2));
+        }
 
-        lld1.addFirst(3);
-
-        lld1.removeLast();
-        lld1.removeFirst();
-        lld1.removeLast();
-        lld1.removeFirst();
-
-        int size = lld1.size();
-        String errorMsg = "  Bad size returned when removing from empty deque.\n";
-        errorMsg += "  student size() returned " + size + "\n";
-        errorMsg += "  actual size() returned 0\n";
-        //System.out.println(errorMsg);
-        assertEquals(0,size);
     }
 
     @Test
