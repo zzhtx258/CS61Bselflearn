@@ -20,11 +20,15 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         }
     }
 
-    Node root = new Node(null, null, null, null, 0);
+    private Node root = new Node(null, null, null, null, 0);
 
     public void clear() {
         root = new Node(null, null, null, null, 0);
         size = 0;
+    }
+
+    public void printInOrder() {
+
     }
 
     private Node find(K key) {
