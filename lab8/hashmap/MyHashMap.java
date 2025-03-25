@@ -1,15 +1,19 @@
 package hashmap;
 
-import java.util.Collection;
+import java.util.*;
 
 /**
  *  A hash table-backed Map implementation. Provides amortized constant time
  *  access to elements via get(), remove(), and put() in the best case.
  *
  *  Assumes null keys will never be inserted, and does not resize down upon remove().
- *  @author YOUR NAME HERE
+ *  @author Howard
  */
 public class MyHashMap<K, V> implements Map61B<K, V> {
+
+    private int initialSize, size;
+    private double maxLoad;
+    private Collection<Node>[] table;
 
     /**
      * Protected helper class to store key/value pairs
@@ -25,14 +29,205 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         }
     }
 
+    public Iterator<K> iterator() {
+        return new KeyIterator();
+    }
+
+    class KeyIterator implements Iterator<K> {
+        int index;
+        Iterator<Node> it;
+
+        public KeyIterator() {
+            index = 0;
+            it = (Iterator<Node>) table[index].iterator();
+            refresh();
+        }
+
+        private void refresh() {
+            while (it == null || !it.hasNext()) {
+                if (index == initialSize) {
+                    break;
+                }
+                it = (Iterator<Node>) table[index].iterator();
+                index++;
+            }
+        }
+
+        public boolean hasNext() {
+            refresh();
+            return it != null && it.hasNext();
+        }
+
+        public K next() {
+            if (!hasNext()) {
+                return null;
+            }
+            return it.next().key;
+        }
+    }
+
+    class MyHashMapIterator implements Iterator<Node>{
+        int index;
+        Iterator<Node> it;
+
+        public MyHashMapIterator() {
+            index = 0;
+            it = (Iterator<Node>) table[index].iterator();
+            refresh();
+        }
+
+        private void refresh() {
+            while (it == null || !it.hasNext()) {
+                if (index == initialSize) {
+                    break;
+                }
+                it = (Iterator<Node>) table[index].iterator();
+                index++;
+            }
+        }
+
+        public boolean hasNext() {
+            refresh();
+            return it != null && it.hasNext();
+        }
+
+        public Node next() {
+            if (!hasNext()) {
+                return null;
+            }
+            return it.next();
+        }
+    }
+
+    public void clear() {
+        table = createTable(initialSize);
+        size = 0;
+    }
+
+    public boolean containsKey(K key) {
+        Iterator<K> it = this.iterator();
+        while (it.hasNext()) {
+            K item = it.next();
+            if (item.equals(key)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns the value to which the specified key is mapped, or null if this
+     * map contains no mapping for the key.
+     */
+    public V get(K key) {
+        Iterator<Node> it = new MyHashMapIterator();
+        while (it.hasNext()) {
+            Node t = it.next();
+            if (t.key.equals(key)) {
+                return t.value;
+            }
+        }
+        return null;
+    }
+
+    /** Returns the number of key-value mappings in this map. */
+    public int size() {
+        return size;
+    }
+
+    /**
+     * Associates the specified value with the specified key in this map.
+     * If the map previously contained a mapping for the key,
+     * the old value is replaced.
+     */
+    private void resize() {
+        Collection<Node>[] temp = createTable(initialSize*2);
+        Iterator<Node> it = new MyHashMapIterator();
+        while (it.hasNext()) {
+            Node n = it.next();
+            int c = n.key.hashCode();
+            while (c<0) {
+                c += initialSize*2;
+            }
+            c %= initialSize*2;
+            temp[c].add(n);
+        }
+        table = temp;
+        initialSize*=2;
+    }
+
+    public void put(K key, V value) {
+        if (!containsKey(key)) {
+            size++;
+        }
+        if ((double) size / initialSize > maxLoad) {
+            resize();
+        }
+        Node n = createNode(key, value);
+        int c = key.hashCode();
+        while (c<0) {
+            c += initialSize;
+        }
+        c %= initialSize;
+        if (containsKey(key)) {
+            Node temp = null;
+            Iterator<Node> it = new MyHashMapIterator();
+            while (it.hasNext()) {
+                Node t = it.next();
+                if (t.key.equals(key)) {
+                    temp = t;
+                }
+            }
+            table[c].remove(temp);
+        }
+        table[c].add(n);
+    }
+
+    /** Returns a Set view of the keys contained in this map. */
+    public Set<K> keySet() {
+        Set<K> s = new HashSet<K>();
+        Iterator<K> it = this.iterator();
+        while (it.hasNext()) {
+            s.add(it.next());
+        }
+        return s;
+    }
+
+    /**
+     * Removes the mapping for the specified key from this map if present.
+     * Not required for Lab 8. If you don't implement this, throw an
+     * UnsupportedOperationException.
+     */
+    public V remove(K key) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Removes the entry for the specified key only if it is currently mapped to
+     * the specified value. Not required for Lab 8. If you don't implement this,
+     * throw an UnsupportedOperationException.
+     */
+    public V remove(K key, V value) {
+        throw new UnsupportedOperationException();
+    }
+
     /* Instance Variables */
     private Collection<Node>[] buckets;
     // You should probably define some more!
 
     /** Constructors */
-    public MyHashMap() { }
+    public MyHashMap() {
+        initialSize = 16;
+        maxLoad = 0.75;
+        size = 0;
+        table = createTable(initialSize);
+    }
 
-    public MyHashMap(int initialSize) { }
+    public MyHashMap(int initialSize) {
+        super();
+        this.initialSize = initialSize;
+        table = createTable(initialSize);
+    }
 
     /**
      * MyHashMap constructor that creates a backing array of initialSize.
@@ -41,13 +236,18 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * @param initialSize initial size of backing array
      * @param maxLoad maximum load factor
      */
-    public MyHashMap(int initialSize, double maxLoad) { }
+    public MyHashMap(int initialSize, double maxLoad) {
+        super();
+        this.initialSize = initialSize;
+        this.maxLoad = maxLoad;
+        table = createTable(initialSize);
+    }
 
     /**
      * Returns a new node to be placed in a hash table bucket
      */
     private Node createNode(K key, V value) {
-        return null;
+        return new Node(key, value);
     }
 
     /**
@@ -69,7 +269,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * OWN BUCKET DATA STRUCTURES WITH THE NEW OPERATOR!
      */
     protected Collection<Node> createBucket() {
-        return null;
+        return new ArrayList<Node>();
     }
 
     /**
@@ -82,10 +282,13 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * @param tableSize the size of the table to create
      */
     private Collection<Node>[] createTable(int tableSize) {
-        return null;
+        Collection<Node>[] table = new Collection[tableSize];
+        for (int i=0; i<tableSize; i++) {
+            table[i] = createBucket();
+        }
+        return table;
     }
 
-    // TODO: Implement the methods of the Map61B Interface below
-    // Your code won't compile until you do so!
+
 
 }
